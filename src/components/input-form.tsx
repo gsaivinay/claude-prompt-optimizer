@@ -115,7 +115,7 @@ export function InputForm({
                                         launching a new product
                                     </li>
                                 </ul>
-                                Next, we'll insert your task into the metaprompt
+                                Next, we&apos;ll insert your task into the metaprompt
                                 and see what Claude gives us! Expect this to
                                 take 20-30 seconds because the Metaprompt is so
                                 long.
