@@ -5,9 +5,7 @@ import { InputForm } from "@/components/input-form";
 import { toast } from "react-hot-toast";
 import { ClaudeOutput } from "./claude-output";
 
-
 export function Chat() {
-
     const { completion, complete, stop, isLoading } = useCompletion();
 
     return (
@@ -16,7 +14,11 @@ export function Chat() {
                 <InputForm complete={complete} isLoading={isLoading} />
             </div>
             <div className="grow min-h-64">
-                <ClaudeOutput output={isLoading ? "Loading..." : completion} />
+                {isLoading ? (
+                    "Loading..."
+                ) : (
+                    <ClaudeOutput output={completion} />
+                )}
             </div>
         </div>
     );

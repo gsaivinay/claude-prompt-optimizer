@@ -4,6 +4,39 @@ import remarkMath from "remark-math";
 import { CodeBlock } from "@/components/ui/codeblock";
 import { MemoizedReactMarkdown } from "@/components/markdown";
 
+function extractBetweenTags(
+    tag: string,
+    string: string,
+    strip = false,
+): string[] {
+    let extList =
+        string.match(new RegExp(`<${tag}>(.+?)</${tag}>`, "gs")) || [];
+    if (strip) {
+        // @ts-ignore
+        extList = extList.map(e => e.trim());
+    }
+    return extList;
+}
+
+function removeEmptyTags(text: string) {
+    return text.replace(/&lt;(\w+)&gt;&lt;\/\1&gt;$/, "");
+}
+
+function extractPrompt(metapromptResponse: string) {
+    if(!metapromptResponse || metapromptResponse == "") {
+        return "";
+    }
+    let betweenTags = extractBetweenTags("Instructions", metapromptResponse)[0];
+    betweenTags = removeEmptyTags(removeEmptyTags(betweenTags).trim()).trim();
+    return betweenTags;
+}
+
+function extractVariables(prompt: string) {
+    let pattern = /{([^}]+)}/g;
+    let variables = prompt.match(pattern) || [];
+    return new Set(variables);
+}
+
 export function ClaudeOutput({ output }: { output: string }) {
     return (
         <div className="max-w-full px-4">
@@ -68,7 +101,7 @@ export function ClaudeOutput({ output }: { output: string }) {
                             },
                         }}
                     >
-                        {output}
+                        {extractPrompt(output)}
                     </MemoizedReactMarkdown>
                 </div>
             </div>

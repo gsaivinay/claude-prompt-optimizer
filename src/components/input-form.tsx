@@ -52,6 +52,7 @@ export function InputForm({
                 <h1 className="mb-2 text-lg font-semibold">
                     Welcome to Claude 3 Prompt Optimizer
                 </h1>
+                <h3>Please run this project in your local if you are facing timeout errors due to vercel edge functions</h3>
                 <div className="mt-4 flex flex-col items-start space-y-2">
                     <Form {...form}>
                         <form

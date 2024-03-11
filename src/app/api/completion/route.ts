@@ -10,36 +10,6 @@ import { metaprompt } from "@/lib/metaprompt";
 // IMPORTANT! Set the runtime to edge
 export const runtime = "edge";
 
-function extractBetweenTags(
-    tag: string,
-    string: string,
-    strip = false,
-): string[] {
-    let extList =
-        string.match(new RegExp(`<${tag}>(.+?)</${tag}>`, "gs")) || [];
-    if (strip) {
-        // @ts-ignore
-        extList = extList.map(e => e.trim());
-    }
-    return extList;
-}
-
-function removeEmptyTags(text: string) {
-    return text.replace(/&lt;(\w+)&gt;&lt;\/\1&gt;$/, "");
-}
-
-function extractPrompt(metapromptResponse: string) {
-    let betweenTags = extractBetweenTags("Instructions", metapromptResponse)[0];
-    betweenTags = removeEmptyTags(removeEmptyTags(betweenTags).trim()).trim();
-    return betweenTags;
-}
-
-function extractVariables(prompt: string) {
-    let pattern = /{([^}]+)}/g;
-    let variables = prompt.match(pattern) || [];
-    return new Set(variables);
-}
-
 export async function POST(req: Request) {
     const { prompt, apiKey } = await req.json();
 
@@ -53,7 +23,7 @@ export async function POST(req: Request) {
 
     const finalPrompt = metaprompt.replace("{{TASK}}", prompt);
 
-    const response = await anthropic.messages.create({
+    const response = await anthropic.messages.stream({
         model: "claude-3-opus-20240229",
         max_tokens: 4096,
         messages: [
@@ -64,6 +34,9 @@ export async function POST(req: Request) {
         ],
     });
 
-    const output = response.content[0].text;
-    return new Response(extractPrompt(output));
+    // Convert the response into a friendly text-stream
+    const stream = AnthropicStream(response);
+
+    // Respond with the stream
+    return new StreamingTextResponse(stream);
 }
