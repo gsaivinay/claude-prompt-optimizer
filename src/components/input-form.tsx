@@ -52,7 +52,10 @@ export function InputForm({
                 <h1 className="mb-2 text-lg font-semibold">
                     Welcome to Claude 3 Prompt Optimizer
                 </h1>
-                <h3>Please run this project in your local if you are facing timeout errors due to vercel edge functions</h3>
+                <h3>
+                    Please run this project in your local if you are facing
+                    timeout errors due to vercel edge functions
+                </h3>
                 <div className="mt-4 flex flex-col items-start space-y-2">
                     <Form {...form}>
                         <form
@@ -94,6 +97,9 @@ export function InputForm({
                                 )}
                             />
 
+                            <Button disabled={isLoading} type="submit">
+                                Submit
+                            </Button>
                             <FormDescription className="prose">
                                 Enter your task in the cell above. Here are some
                                 examples for inspiration:
@@ -116,14 +122,11 @@ export function InputForm({
                                         launching a new product
                                     </li>
                                 </ul>
-                                Next, we&apos;ll insert your task into the metaprompt
-                                and see what Claude gives us! Expect this to
-                                take 20-30 seconds because the Metaprompt is so
-                                long.
+                                Next, we&apos;ll insert your task into the
+                                metaprompt and see what Claude gives us! Expect
+                                this to take 20-30 seconds because the
+                                Metaprompt is so long.
                             </FormDescription>
-                            <Button disabled={isLoading} type="submit">
-                                Submit
-                            </Button>
                         </form>
                     </Form>
                 </div>
