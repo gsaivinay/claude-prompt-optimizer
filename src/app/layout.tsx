@@ -22,6 +22,9 @@ export const metadata = {
         shortcut: "/favicon-16x16.png",
         apple: "/apple-touch-icon.png",
     },
+    verification: {
+        google: process.env.GOOGLE_VERIFICATION
+    }
 };
 
 export const viewport = {
