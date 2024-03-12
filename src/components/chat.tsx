@@ -6,7 +6,13 @@ import { toast } from "react-hot-toast";
 import { ClaudeOutput } from "./claude-output";
 
 export function Chat() {
-    const { completion, complete, stop, isLoading } = useCompletion();
+    const { completion, complete, stop, isLoading, error } = useCompletion();
+
+    if (error) {
+        toast.error(
+            "There is an error while generating prompt. Please try again...",
+        );
+    }
 
     return (
         <div className="m-auto flex flex-col gap-4 max-w-5xl">
@@ -14,10 +20,16 @@ export function Chat() {
                 <InputForm complete={complete} isLoading={isLoading} />
             </div>
             <div className="grow min-h-64">
-                {isLoading ? (
-                    "Loading..."
+                {error ? (
+                    <p className="text-center text-red-500">
+                        There is an error while generating prompt. Please try
+                        again...
+                    </p>
                 ) : (
-                    <ClaudeOutput output={completion} />
+                    <ClaudeOutput
+                        output={completion || ""}
+                        isLoading={isLoading}
+                    />
                 )}
             </div>
         </div>
