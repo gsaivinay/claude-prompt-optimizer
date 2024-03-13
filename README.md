@@ -6,6 +6,9 @@
   Claude Docs
 </a>
 
+Try at https://claude-prompt-optimizer.vercel.app/
+
+
 <img alt="Next.js 14 and App Router-ready AI chatbot." src="screenshot.png">
 
 </p>
@@ -14,8 +17,7 @@
 
 ## Features
 
-- For a given task, generate the optimized Claude prompt versions.
-
+-   For a given task, generate the optimized Claude prompt versions.
 
 ## Running locally
 
