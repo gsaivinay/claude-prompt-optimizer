@@ -3,6 +3,9 @@ import remarkMath from "remark-math";
 
 import { CodeBlock } from "@/components/ui/codeblock";
 import { MemoizedReactMarkdown } from "@/components/markdown";
+import { useCopyToClipboard } from "@/lib/hooks/use-copy-to-clipboard";
+import { Button } from "@/components/ui/button";
+import { IconCheck, IconCopy } from "@/components/ui/icons";
 
 function extractBetweenTags(
     tag: string,
@@ -47,12 +50,33 @@ export function ClaudeOutput({
     output: string;
     isLoading: boolean;
 }) {
+    const { isCopied, copyToClipboard } = useCopyToClipboard({ timeout: 2000 });
+
+    const onCopy = () => {
+        if (isCopied) return;
+        copyToClipboard(extractPrompt(output));
+    };
+
     return (
         <div className="max-w-full px-4">
             <div className="rounded-lg border bg-background p-8">
-                <h1 className="mb-2 text-lg font-semibold">
-                    Claude 3 optimized prompt
-                </h1>
+                <div className="flex justify-between m-0 p-0">
+                    <h1 className="mb-2 text-lg font-semibold">
+                        Claude 3 optimized prompt
+                    </h1>
+                    <span>
+                        <Button
+                            variant="outline"
+                            size="icon"
+                            className="text-xs focus-visible:ring-1 focus-visible:ring-slate-700 focus-visible:ring-offset-0"
+                            onClick={onCopy}
+                            disabled={isLoading}
+                        >
+                            {isCopied ? <IconCheck /> : <IconCopy />}
+                            <span className="sr-only">Copy code</span>
+                        </Button>
+                    </span>
+                </div>
                 <div className="rounded-lg border border-border mt-4 p-4 flex flex-col items-start space-y-2">
                     {isLoading ? (
                         "Loading..."
@@ -118,7 +142,7 @@ export function ClaudeOutput({
                                 },
                             }}
                         >
-                           {extractPrompt(output)}
+                            {extractPrompt(output)}
                         </MemoizedReactMarkdown>
                     )}
                 </div>
