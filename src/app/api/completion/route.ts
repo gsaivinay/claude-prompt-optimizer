@@ -9,7 +9,6 @@ export const runtime = "edge";
 
 function safeJSON(text: string) {
     try {
-        console.log(text);
         return JSON.parse(text);
     } catch (err) {
         return undefined;
@@ -29,31 +28,26 @@ export async function POST(req: Request) {
         apiKey,
     });
 
-    const response = anthropic.messages.stream({
-        model: "claude-3-opus-20240229",
-        max_tokens: 4096,
-        messages: [
-            {
-                role: "user",
-                content: finalPrompt,
-            },
-        ],
-    });
     try {
-        // Convert the response into a friendly text-stream
+        const response = await anthropic.completions.create({
+            model: "claude-3-opus-20240229",
+            stream: true,
+            max_tokens_to_sample: 4096,
+            prompt: `Human: ${finalPrompt}\n\nAssistant:`,
+        });
         const stream = AnthropicStream(response);
-
-        // Respond with the stream
         return new StreamingTextResponse(stream);
     } catch (error) {
-        if (error instanceof AnthropicError || error instanceof Anthropic.APIError) {
-            console.log(error.message.split(/\s(.*)/s));
+        if (
+            error instanceof AnthropicError ||
+            error instanceof Anthropic.APIError
+        ) {
             const message =
                 safeJSON(error.message.split(/\s(.*)/s)[1] || "")?.error
                     ?.message || "Error";
             console.log(message);
-            return new Response(message, { status: 500 });
+            return NextResponse.json(message, { status: 500 });
         }
-        return new Response("Error", { status: 500 });
+        return NextResponse.json({ message: "Error" }, { status: 500 });
     }
 }

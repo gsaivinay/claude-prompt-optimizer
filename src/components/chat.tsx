@@ -10,7 +10,7 @@ export function Chat() {
 
     if (error) {
         toast.error(
-            "There is an error while generating prompt. Please try again...",
+            `There is an error while generating prompt. Please try again. \n\n ${error.message}`,
         );
     }
 
@@ -22,8 +22,8 @@ export function Chat() {
             <div className="grow min-h-64">
                 {error ? (
                     <p className="text-center text-red-500">
-                        There is an error while generating prompt. Please try
-                        again...
+                        There is an error while generating prompt. <br />
+                        {error.message}
                     </p>
                 ) : (
                     <ClaudeOutput
