@@ -1,5 +1,5 @@
 import Anthropic from "@anthropic-ai/sdk";
-import { AnthropicStream } from "ai";
+import { AnthropicStream, StreamingTextResponse } from "ai";
 import { metaprompt } from "@/lib/metaprompt";
 import { NextResponse } from "next/server";
 import { AnthropicError } from "@anthropic-ai/sdk/error";
@@ -7,21 +7,6 @@ import { MessageParam } from "@anthropic-ai/sdk/resources";
 
 // IMPORTANT! Set the runtime to edge
 export const runtime = "edge";
-
-export class StreamingTextResponse extends Response {
-    constructor(res: ReadableStream, init?: ResponseInit) {
-        let processedStream = res;
-
-        super(processedStream as any, {
-            ...init,
-            status: 200,
-            headers: {
-                "Content-Type": "text/plain; charset=utf-8",
-                ...init?.headers,
-            },
-        });
-    }
-}
 
 function safeJSON(text: string) {
     try {
