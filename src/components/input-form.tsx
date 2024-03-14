@@ -13,7 +13,14 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "./ui/textarea";
+import { Textarea } from "@/components/ui/textarea";
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
 import { RequestOptions } from "ai";
 
 export function InputForm({
@@ -28,14 +35,16 @@ export function InputForm({
 }) {
     const formSchema = z.object({
         apiKey: z.string().min(30),
-        input: z.string(),
+        input: z.string().min(5).max(10000),
+        model: z.string().min(1),
+        variables: z.string().optional(),
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
-        // defaultValues: {
-        //     input: input,
-        // },
+        defaultValues: {
+            model: "claude-3-opus-20240229",
+        },
         disabled: isLoading,
     });
 
@@ -43,42 +52,81 @@ export function InputForm({
         complete(values.input, {
             body: {
                 apiKey: values.apiKey,
+                model: values.model,
+                variables: values.variables,
             },
         });
     }
     return (
         <div className="mx-auto max-w-full px-4">
-            <div className="rounded-lg border bg-background p-8">
-                <h1 className="mb-2 text-lg font-semibold">
+            <div className="rounded-lg border bg-background p-6">
+                <h1 className="text-lg font-semibold">
                     Welcome to Claude 3 Prompt Optimizer
                 </h1>
                 <h3>
                     Please run this project in your local if you are facing
                     timeout errors due to vercel edge functions
                 </h3>
-                <div className="mt-4 flex flex-col items-start space-y-2">
+                <div className="mt-2 flex flex-col items-start space-y-2">
                     <Form {...form}>
                         <form
                             onSubmit={form.handleSubmit(onSubmit)}
-                            className="space-y-8 w-full"
+                            className="space-y-4 w-full"
                         >
-                            <FormField
-                                control={form.control}
-                                name="apiKey"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Anthropic API key</FormLabel>
-                                        <FormControl>
-                                            <Input
-                                                placeholder="sk-ant-..."
-                                                type="password"
-                                                {...field}
-                                            />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
+                            <div className="flex flex-col md:flex-row gap-4 w-full">
+                                <FormField
+                                    control={form.control}
+                                    name="apiKey"
+                                    render={({ field }) => (
+                                        <FormItem className="grow">
+                                            <FormLabel>
+                                                Anthropic API key
+                                            </FormLabel>
+                                            <FormControl>
+                                                <Input
+                                                    placeholder="sk-ant-..."
+                                                    type="password"
+                                                    {...field}
+                                                />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                                <FormField
+                                    control={form.control}
+                                    name="model"
+                                    render={({ field }) => (
+                                        <FormItem className="min-w-40">
+                                            <FormLabel>Model</FormLabel>
+                                            <Select
+                                                onValueChange={field.onChange}
+                                                defaultValue={
+                                                    "claude-3-opus-20240229"
+                                                }
+                                            >
+                                                <FormControl>
+                                                    <SelectTrigger>
+                                                        <SelectValue placeholder="Select a verified email to display" />
+                                                    </SelectTrigger>
+                                                </FormControl>
+                                                <SelectContent>
+                                                    <SelectItem value="claude-3-opus-20240229">
+                                                        Claude 3 Opus
+                                                    </SelectItem>
+                                                    <SelectItem value="claude-3-sonnet-20240229">
+                                                        Claude 3 Sonnet
+                                                    </SelectItem>
+                                                    <SelectItem value="claude-3-haiku-20240307">
+                                                        Claude 3 Haiku
+                                                    </SelectItem>
+                                                </SelectContent>
+                                            </Select>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                            </div>
                             <div className="flex flex-col md:flex-row gap-4 w-full">
                                 <FormField
                                     control={form.control}
@@ -88,7 +136,7 @@ export function InputForm({
                                             <FormLabel>Task</FormLabel>
                                             <FormControl>
                                                 <Textarea
-                                                    className="h-[20ch]"
+                                                    className="h-[15ch]"
                                                     placeholder="Draft an email responding to a customer complaint"
                                                     {...field}
                                                 />
@@ -103,15 +151,7 @@ export function InputForm({
                                     some examples for inspiration:
                                     <ul>
                                         <li>
-                                            Choose an item from a menu for given
-                                            user preferences
-                                        </li>
-                                        <li>
                                             Rate a resume according to a rubric
-                                        </li>
-                                        <li>
-                                            Explain a complex scientific concept
-                                            in simple terms
                                         </li>
                                         <li>
                                             Draft an email responding to a
@@ -128,6 +168,35 @@ export function InputForm({
                                     the Metaprompt is so long.
                                 </FormDescription>
                             </div>
+
+                            <FormField
+                                control={form.control}
+                                name="variables"
+                                render={({ field }) => (
+                                    <FormItem className="grow">
+                                        <FormLabel>
+                                            Variables in the task (Optional)
+                                        </FormLabel>
+                                        <FormControl>
+                                            <Input placeholder="" {...field} />
+                                        </FormControl>
+                                        <FormDescription>
+                                            Optional: specify the comma
+                                            separated variables you want Claude
+                                            to use.{" "}
+                                            <b>
+                                                If you want Claude to choose,
+                                                you can leave this empty.
+                                            </b>{" "}
+                                            <br /> Example variables for
+                                            &quot;Draft an email responding to a
+                                            customer complaint&quot; task:
+                                            CUSTOMER_COMPLAINT, COMPANY_NAME
+                                        </FormDescription>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
 
                             <Button disabled={isLoading} type="submit">
                                 Submit
