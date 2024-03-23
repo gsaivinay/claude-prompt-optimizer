@@ -7,6 +7,5 @@ export interface ChatPageProps {
 }
 
 export default async function ChatPage({ params }: ChatPageProps) {
-
     return <Chat />;
 }

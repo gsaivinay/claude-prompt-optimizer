@@ -55,7 +55,7 @@ export function ClaudeOutput({
 
     return (
         <div className="max-w-full px-4">
-            <div className="rounded-lg border bg-background p-8">
+            <div className="rounded-lg border bg-background p-8 shadow-lg shadow-primary/35">
                 <div className="flex justify-between m-0 p-0">
                     <h1 className="mb-2 text-lg font-semibold">
                         Claude 3 optimized prompt
@@ -77,9 +77,7 @@ export function ClaudeOutput({
                     {isLoading ? (
                         "Loading..."
                     ) : (
-                        <MemoizedReactMarkdown
-                            className="prose break-words dark:prose-invert prose-p:leading-relaxed prose-pre:p-0"
-                        >
+                        <MemoizedReactMarkdown className="prose break-words dark:prose-invert prose-p:leading-relaxed prose-pre:p-0">
                             {extractPrompt(output)}
                         </MemoizedReactMarkdown>
                     )}

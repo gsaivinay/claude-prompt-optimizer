@@ -1,7 +1,7 @@
 import { Toaster } from "react-hot-toast";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
-import { Analytics } from "@vercel/analytics/react"
+import { Analytics } from "@vercel/analytics/react";
 
 import "@/globals.css";
 import { cn } from "@/lib/utils";
@@ -15,16 +15,15 @@ export const metadata = {
         default: "Claude 3 Prompt Optimizer",
         template: `Claude 3 Prompt Optimizer`,
     },
-    description:
-        "Claude 3 Prompt Optimizer",
+    description: "Claude 3 Prompt Optimizer",
     icons: {
         icon: "/favicon.ico",
         shortcut: "/favicon-16x16.png",
         apple: "/apple-touch-icon.png",
     },
     verification: {
-        google: process.env.GOOGLE_VERIFICATION
-    }
+        google: process.env.GOOGLE_VERIFICATION,
+    },
 };
 
 export const viewport = {

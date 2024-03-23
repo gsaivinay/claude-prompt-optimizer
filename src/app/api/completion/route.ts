@@ -38,7 +38,7 @@ export async function POST(req: Request) {
     if (variables && variables !== "") {
         assistantPartial += `\n${variables.split(",").join("\n")}\n</Inputs><Instructions Structure>`;
     }
-    
+
     const messages: MessageParam[] = [
         { role: "user", content: finalPrompt },
         {

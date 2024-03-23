@@ -59,7 +59,7 @@ export function InputForm({
     }
     return (
         <div className="mx-auto max-w-full px-4">
-            <div className="rounded-lg border bg-background p-6">
+            <div className="rounded-lg border bg-background p-6 shadow-lg shadow-primary/35">
                 <h1 className="text-lg font-semibold">
                     Welcome to Claude 3 Prompt Optimizer
                 </h1>
