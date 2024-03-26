@@ -71,9 +71,9 @@ export function InputForm({
                     <Form {...form}>
                         <form
                             onSubmit={form.handleSubmit(onSubmit)}
-                            className="space-y-4 w-full"
+                            className="w-full space-y-4"
                         >
-                            <div className="flex flex-col md:flex-row gap-4 w-full">
+                            <div className="flex w-full flex-col gap-4 md:flex-row">
                                 <FormField
                                     control={form.control}
                                     name="apiKey"
@@ -127,7 +127,7 @@ export function InputForm({
                                     )}
                                 />
                             </div>
-                            <div className="flex flex-col md:flex-row gap-4 w-full">
+                            <div className="flex w-full flex-col gap-4 md:flex-row">
                                 <FormField
                                     control={form.control}
                                     name="input"

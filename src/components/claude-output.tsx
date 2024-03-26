@@ -56,7 +56,7 @@ export function ClaudeOutput({
     return (
         <div className="max-w-full px-4">
             <div className="rounded-lg border bg-background p-8 shadow-lg shadow-primary/35">
-                <div className="flex justify-between m-0 p-0">
+                <div className="m-0 flex justify-between p-0">
                     <h1 className="mb-2 text-lg font-semibold">
                         Claude 3 optimized prompt
                     </h1>
@@ -73,7 +73,7 @@ export function ClaudeOutput({
                         </Button>
                     </span>
                 </div>
-                <div className="rounded-lg border border-border mt-4 p-4 flex flex-col items-start space-y-2">
+                <div className="mt-4 flex flex-col items-start space-y-2 rounded-lg border border-border p-4">
                     {isLoading ? (
                         "Loading..."
                     ) : (

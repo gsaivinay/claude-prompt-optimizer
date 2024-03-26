@@ -9,7 +9,7 @@ async function UserOrLogin() {
 
 export function Header() {
     return (
-        <header className="sticky top-0 z-50 flex items-center justify-between w-full h-16 px-4 border-b shrink-0 bg-gradient-to-b from-background/10 via-background/50 to-background/80 backdrop-blur-xl">
+        <header className="sticky top-0 z-50 flex h-16 w-full shrink-0 items-center justify-between border-b bg-gradient-to-b from-background/10 via-background/50 to-background/80 px-4 backdrop-blur-xl">
             <div className="flex items-center">
                 <Suspense fallback={<div className="flex-1 overflow-auto" />}>
                     <UserOrLogin />
@@ -24,7 +24,7 @@ export function Header() {
                         rel="noopener noreferrer"
                     >
                         <IconGitHub />
-                        <span className="hidden ml-2 md:flex">GitHub</span>
+                        <span className="ml-2 hidden md:flex">GitHub</span>
                     </a>
                 </Button>
             </div>
