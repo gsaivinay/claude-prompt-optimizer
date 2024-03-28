@@ -43,7 +43,7 @@ export default function Dashboard() {
                     </main>
                 </div>
             </div>
-            {!isLoading && (
+            {isLoading && (
                 <div className="max-w-dvw fixed inset-0 z-40 m-auto flex h-screen max-h-dvh w-dvw items-center justify-center text-secondary-foreground backdrop-blur-sm">
                     <span className="rounded-lg backdrop-blur-3xl shadow-primary shadow-[0_0_16px_0px_rgba(0,0,0,0),_0_2px_4px_-2px_rgb(0,0,0,0.1)] p-2">
                         <LoaderCircle className="z-50 size-16 animate-spin" />
