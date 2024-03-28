@@ -18,10 +18,10 @@ export default function Dashboard() {
     return (
         <>
             <div className="flex w-full flex-col ">
-                <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14">
-                    <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
-                        <div className="mx-auto grid  flex-1 auto-rows-max gap-4">
-                            <div className="grid gap-4 lg:grid-cols-2 lg:gap-8">
+                <div className="flex flex-col sm:gap-4 sm:py-4">
+                    <main className="grid flex-1 items-start gap-4 p-4 sm:py-0">
+                        <div className="mx-auto grid flex-1 auto-rows-max gap-4">
+                            <div className="grid gap-4 lg:grid-cols-2">
                                 <InputForm
                                     complete={complete}
                                     isLoading={isLoading}
@@ -43,9 +43,9 @@ export default function Dashboard() {
                     </main>
                 </div>
             </div>
-            {isLoading && (
-                <div className="max-w-dvw fixed inset-0 z-40 m-auto flex h-screen max-h-dvh w-dvw items-center justify-center bg-slate-800/40 text-secondary-foreground dark:bg-muted/80">
-                    <span className="rounded-lg bg-muted/70 p-2">
+            {!isLoading && (
+                <div className="max-w-dvw fixed inset-0 z-40 m-auto flex h-screen max-h-dvh w-dvw items-center justify-center text-secondary-foreground backdrop-blur-sm">
+                    <span className="rounded-lg backdrop-blur-3xl shadow-primary shadow-[0_0_16px_0px_rgba(0,0,0,0),_0_2px_4px_-2px_rgb(0,0,0,0.1)] p-2">
                         <LoaderCircle className="z-50 size-16 animate-spin" />
                         Loading...
                     </span>
