@@ -63,10 +63,10 @@ export function InputForm({
                 <h1 className="text-lg font-semibold">
                     Welcome to Claude 3 Prompt Optimizer
                 </h1>
-                <h3>
+                <span className="text-sm">
                     Please run this project in your local if you are facing
                     timeout errors due to vercel edge functions
-                </h3>
+                </span>
                 <div className="mt-2 flex flex-col items-start space-y-2">
                     <Form {...form}>
                         <form
@@ -127,46 +127,48 @@ export function InputForm({
                                     )}
                                 />
                             </div>
-                            <div className="flex w-full flex-col gap-4 md:flex-row">
-                                <FormField
-                                    control={form.control}
-                                    name="input"
-                                    render={({ field }) => (
-                                        <FormItem className="grow">
-                                            <FormLabel>Task</FormLabel>
-                                            <FormControl>
-                                                <Textarea
-                                                    className="h-[15ch]"
-                                                    placeholder="Draft an email responding to a customer complaint"
-                                                    {...field}
-                                                />
-                                            </FormControl>
-
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                                <FormDescription className="prose max-w-[45ch]">
-                                    Enter your task in the text area. Here are
-                                    some examples for inspiration:
-                                    <ul>
-                                        <li>
-                                            Rate a resume according to a rubric
-                                        </li>
-                                        <li>
-                                            Draft an email responding to a
-                                            customer complaint
-                                        </li>
-                                        <li>
-                                            Design a marketing strategy for
-                                            launching a new product
-                                        </li>
-                                    </ul>
-                                    Next, we&apos;ll insert your task into the
-                                    metaprompt and see what Claude gives us!
-                                    Expect this to take 20-30 seconds because
-                                    the Metaprompt is so long.
-                                </FormDescription>
+                            <div className="@container">
+                                <div className="@xl:flex-row flex w-full flex-col gap-4">
+                                    <FormField
+                                        control={form.control}
+                                        name="input"
+                                        render={({ field }) => (
+                                            <FormItem className="grow">
+                                                <FormLabel>Task</FormLabel>
+                                                <FormControl>
+                                                    <Textarea
+                                                        className="h-[15ch] min-w-[20ch]"
+                                                        placeholder="Draft an email responding to a customer complaint"
+                                                        {...field}
+                                                    />
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+                                    <div className="prose max-w-[45ch] text-[0.8rem] text-neutral-500 dark:text-neutral-400">
+                                        Enter your task in the text area. Here
+                                        are some examples for inspiration:
+                                        <ul>
+                                            <li>
+                                                Rate a resume according to a
+                                                rubric
+                                            </li>
+                                            <li>
+                                                Draft an email responding to a
+                                                customer complaint
+                                            </li>
+                                            <li>
+                                                Design a marketing strategy for
+                                                launching a new product
+                                            </li>
+                                        </ul>
+                                        Next, we&apos;ll insert your task into
+                                        the metaprompt and see what Claude gives
+                                        us! Expect this to take 20-30 seconds
+                                        because the Metaprompt is so long.
+                                    </div>
+                                </div>
                             </div>
 
                             <FormField
