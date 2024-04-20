@@ -3,7 +3,7 @@ import { AnthropicStream, StreamingTextResponse } from "ai";
 import { metaprompt } from "@/lib/metaprompt";
 import { NextResponse } from "next/server";
 import { AnthropicError } from "@anthropic-ai/sdk/error";
-import { MessageParam } from "@anthropic-ai/sdk/resources";
+import type { MessageParam } from "@anthropic-ai/sdk/resources";
 
 // IMPORTANT! Set the runtime to edge
 export const runtime = "edge";
@@ -34,7 +34,7 @@ export async function POST(req: Request) {
     }
 
     const finalPrompt = metaprompt.replace("{{TASK}}", prompt);
-    let assistantPartial = `<Inputs>`;
+    let assistantPartial = "<Inputs>";
     if (variables && variables !== "") {
         assistantPartial += `\n${variables.split(",").join("\n")}\n</Inputs><Instructions Structure>`;
     }
@@ -58,8 +58,8 @@ export async function POST(req: Request) {
     });
 
     // track error manually because Vercel AI SDK is not playing nice with Anthropic messages stream API
-    let errorStatus: boolean = false;
-    let errorMessage: string = "";
+    let errorStatus = false;
+    let errorMessage = "";
 
     try {
         const response = anthropic.messages

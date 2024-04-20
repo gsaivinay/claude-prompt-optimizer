@@ -22,10 +22,10 @@ function removeEmptyTags(text: string) {
 }
 
 function extractPrompt(metapromptResponse: string) {
-    if (!metapromptResponse || metapromptResponse == "") {
+    if (!metapromptResponse || metapromptResponse === "") {
         return "";
     }
-    if (metapromptResponse == "Loading...") {
+    if (metapromptResponse === "Loading...") {
         return "Loading...";
     }
     let betweenTags = extractBetweenTags("Instructions", metapromptResponse)[0];
@@ -34,8 +34,8 @@ function extractPrompt(metapromptResponse: string) {
 }
 
 function extractVariables(prompt: string) {
-    let pattern = /{([^}]+)}/g;
-    let variables = prompt.match(pattern) || [];
+    const pattern = /{([^}]+)}/g;
+    const variables = prompt.match(pattern) || [];
     return new Set(variables);
 }
 

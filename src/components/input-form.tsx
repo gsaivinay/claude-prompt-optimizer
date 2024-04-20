@@ -21,7 +21,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-import { RequestOptions } from "ai";
+import type { RequestOptions } from "ai";
 
 export function InputForm({
     isLoading,

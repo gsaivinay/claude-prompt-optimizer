@@ -13,7 +13,7 @@ export const metadata = {
     metadataBase: new URL(`https://${process.env.VERCEL_URL}`),
     title: {
         default: "Claude 3 Prompt Optimizer",
-        template: `Claude 3 Prompt Optimizer`,
+        template: "Claude 3 Prompt Optimizer",
     },
     description: "Claude 3 Prompt Optimizer",
     icons: {
