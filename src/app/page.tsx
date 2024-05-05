@@ -22,14 +22,10 @@ export default function Dashboard() {
                     <main className="grid flex-1 items-start gap-4 p-4 sm:py-0">
                         <div className="mx-auto grid flex-1 auto-rows-max gap-4">
                             <div className="grid gap-4 lg:grid-cols-2">
-                                <InputForm
-                                    complete={complete}
-                                    isLoading={isLoading}
-                                />
+                                <InputForm complete={complete} isLoading={isLoading} />
                                 {error ? (
                                     <p className="text-center text-red-500">
-                                        There is an error while generating
-                                        prompt. <br />
+                                        There is an error while generating prompt. <br />
                                         {error.message}
                                     </p>
                                 ) : (
@@ -45,10 +41,8 @@ export default function Dashboard() {
             </div>
             {isLoading && (
                 <div className="max-w-dvw fixed inset-0 z-40 m-auto flex h-screen max-h-dvh w-dvw items-center justify-center text-secondary-foreground backdrop-blur-sm">
-                    <span className="rounded-lg backdrop-blur-3xl shadow-primary shadow-[0_0_16px_0px_rgba(0,0,0,0),_0_2px_4px_-2px_rgb(0,0,0,0.1)] p-2">
-                        <LoaderCircle className="z-50 size-16 animate-spin" />
-                        Loading...
-                    </span>
+                    <LoaderCircle className="z-50 size-16 animate-spin" />
+                    Loading...
                 </div>
             )}
         </>
