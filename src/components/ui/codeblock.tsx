@@ -69,7 +69,7 @@ const CodeBlock: FC<Props> = memo(({ language, value }) => {
             true,
         )}${fileExtension}`;
         const fileName = window.prompt(
-            "Enter file name" || "",
+            "Enter file name",
             suggestedFileName,
         );
 

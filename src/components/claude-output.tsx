@@ -18,7 +18,7 @@ function extractBetweenTags(
 }
 
 function removeEmptyTags(text: string) {
-    return text.replace(/&lt;(\w+)&gt;&lt;\/\1&gt;$/, "");
+    return text ? text.replace(/&lt;(\w+)&gt;&lt;\/\1&gt;$/, "") : text;
 }
 
 function extractPrompt(metapromptResponse: string) {

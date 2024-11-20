@@ -102,7 +102,7 @@ export function InputForm({
                                             <Select
                                                 onValueChange={field.onChange}
                                                 defaultValue={
-                                                    "claude-3-opus-20240229"
+                                                    "claude-3-5-sonnet-20241022"
                                                 }
                                             >
                                                 <FormControl>
@@ -119,6 +119,15 @@ export function InputForm({
                                                     </SelectItem>
                                                     <SelectItem value="claude-3-haiku-20240307">
                                                         Claude 3 Haiku
+                                                    </SelectItem>
+                                                    <SelectItem value="claude-3-5-sonnet-20240620">
+                                                        Claude 3.5 Sonnet June
+                                                    </SelectItem>
+                                                    <SelectItem value="claude-3-5-sonnet-20241022">
+                                                        Claude 3.5 Sonnet New (OCT)
+                                                    </SelectItem>
+                                                    <SelectItem value="claude-3-5-haiku-20241022">
+                                                        Claude 3.5 Haiku
                                                     </SelectItem>
                                                 </SelectContent>
                                             </Select>

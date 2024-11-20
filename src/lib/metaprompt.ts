@@ -442,12 +442,6 @@ The question to answer is <question>{$QUESTION}</question>
 </Instructions>
 </Task Instruction Example>
 
-That concludes the examples. Now, here is the task for which I would like you to write instructions:
-
-<Task>
-{{TASK}}
-</Task>
-
 To write your instructions, follow THESE instructions:
 1. In <Inputs> tags, write down the barebones, minimal, nonoverlapping set of text input variable(s) the instructions will make reference to. (These are variable names, not specific instructions.) Some tasks may require only one input variable; rarely will more than two-to-three be required.
 2. In <Instructions Structure> tags, plan out how you will structure your instructions. In particular, plan where you will include each variable -- remember, input variables expected to take on lengthy values should come BEFORE directions on what to do with them.

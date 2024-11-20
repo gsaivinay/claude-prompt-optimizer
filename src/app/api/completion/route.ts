@@ -1,28 +1,23 @@
-import Anthropic from "@anthropic-ai/sdk";
-import { AnthropicStream, StreamingTextResponse } from "ai";
 import { metaprompt } from "@/lib/metaprompt";
 import { NextResponse } from "next/server";
-import { AnthropicError } from "@anthropic-ai/sdk/error";
-import type { MessageParam } from "@anthropic-ai/sdk/resources";
-
-// IMPORTANT! Set the runtime to edge
-export const runtime = "edge";
-
-function safeJSON(text: string) {
-    try {
-        return JSON.parse(text);
-    } catch (err) {
-        return undefined;
-    }
-}
+import { createAnthropic } from "@ai-sdk/anthropic";
+import { streamText, convertToCoreMessages } from "ai";
 
 export async function POST(req: Request) {
     const { prompt, apiKey, model, variables } = await req.json();
+
+    const anthropic = createAnthropic({
+        apiKey: apiKey,
+        // baseURL: "http://127.0.0.1:3019/v1",
+    });
 
     const validModels = [
         "claude-3-opus-20240229",
         "claude-3-sonnet-20240229",
         "claude-3-haiku-20240307",
+        "claude-3-5-sonnet-20240620",
+        "claude-3-5-sonnet-20241022",
+        "claude-3-5-haiku-20241022",
     ];
 
     if (!validModels.includes(model)) {
@@ -39,55 +34,41 @@ export async function POST(req: Request) {
         assistantPartial += `\n${variables.split(",").join("\n")}\n</Inputs><Instructions Structure>`;
     }
 
-    const messages: MessageParam[] = [
-        { role: "user", content: finalPrompt },
+    const messages = [
+        {
+            role: "user",
+            content: [
+                {
+                    type: "text",
+                    text: finalPrompt,
+                    experimental_providerMetadata: {
+                        anthropic: { cacheControl: { type: "ephemeral" } },
+                    },
+                },
+                {
+                    type: "text",
+                    text: `
+That concludes the instuctions and examples. Now, here is the task for which I would like you to write instructions:
+
+<Task>
+${prompt}
+</Task>`,
+                },
+            ],
+        },
         {
             role: "assistant",
             content: "<Inputs>",
         },
     ];
 
-    const anthropic = new Anthropic({
-        apiKey,
+    const result = streamText({
+        model: anthropic(model, {
+            cacheControl: true,
+        }),
+        maxTokens: 4096,
+        //@ts-expect-error - AI SDK typing issue
+        messages: messages,
     });
-    let resolver: (value: unknown) => void;
-
-    // create a dummy promise to resolve later conditionally
-    const dummyPromise = new Promise(resolve => {
-        resolver = resolve;
-    });
-
-    // track error manually because Vercel AI SDK is not playing nice with Anthropic messages stream API
-    let errorStatus = false;
-    let errorMessage = "";
-
-    try {
-        const response = anthropic.messages
-            .stream({
-                model: model,
-                max_tokens: 4096,
-                messages: messages,
-            })
-            .on("error", error => {
-                const message =
-                    safeJSON(error.message.split(/\s(.*)/s)[1] || "")?.error
-                        ?.message || "Error";
-                console.error(message);
-                errorStatus = true;
-                errorMessage = message;
-                resolver(true);
-            })
-            .on("connect", () => {
-                resolver(true);
-            });
-
-        await dummyPromise;
-        if (errorStatus) {
-            return NextResponse.json(errorMessage, { status: 500 });
-        }
-        const stream = AnthropicStream(response);
-        return new StreamingTextResponse(stream);
-    } catch (error) {
-        return NextResponse.json({ message: "Error" }, { status: 500 });
-    }
+    return result.toDataStreamResponse({ sendUsage: true });
 }
